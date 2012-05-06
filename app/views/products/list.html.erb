@@ -1,0 +1,10 @@
+<h1>Listing products</h1>
+
+<% @products.each do |product| %>
+<div class="alert alert-info">
+	<h2><%= link_to "#{product.name}", product %></h2>
+	<p><%= "Qty: #{product.quantity} Price: #{product.price}" %></p>
+	<p><%= "Category: #{product.category}" %></p>
+	<%= link_to 'Add to cart', add_item_path(product.id), :class => 'btn btn-info' %>
+</div>
+<% end %>

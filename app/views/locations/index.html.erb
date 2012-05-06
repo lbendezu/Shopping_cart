@@ -1,0 +1,35 @@
+<h1>Listing locations</h1>
+
+<form action="/locations/maintain/" method="post" >
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @locations.each do |location| %>
+    <tr>
+      <td><%= location.name %></td>
+      <td><%= location.location_id %></td>
+      <!--<td><%= button_tag 'Show', :name => 'submit', :value => 'show', :class => 'btn btn-success' %></td>
+      <td><%= button_tag 'Edit', :name => 'submit', :value => 'edit', :class => 'btn btn-warning' %></td>
+      <td><%= button_tag 'Destroy', :name => 'submit', :value => 'destroy', :class => 'btn btn-danger' %></td>-->
+
+      <td><%= link_to 'Show', location, :class => 'btn btn-success' %></td>
+      <td><%= link_to 'Edit', edit_location_path(location), :class => 'btn btn-warning' %></td>
+      <td><%= link_to 'Destroy', location, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' %></td>
+
+    </tr>
+  <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Location', new_location_path, :class => 'btn btn-info' %>
+</form>

@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  function update_shopping_cart() {
+
+    // Get the table
+    var table = document.getElementById("shopping_cart");
+    var str = '';
+
+    // Get all elements
+    var e = document.forms[0].elements;
+
+    // Iterate without counting the table header
+    for ( var elem, i = 0; ( elem = e[i] ); i++ ) {
+      if ( elem.type == 'text' ) {
+        str += elem.name + ',' + elem.value + '|'
+      }
+    }
+
+    // Remove the last character
+    var newStr = str.substring(0, str.length-1);
+
+    // FIll the hidden field to send it to the controller
+    var hidden = document.getElementById('message');
+    hidden.value = newStr;
+    
+    // Submit
+    document.forms[0].submit();
+  }
+</script>
+
+<%= form_tag('/products/update_shopping_cart', :method => :post) do %>
+  <%= hidden_field_tag 'message', '' %>
+  <table id="shopping_cart" class="table table-bordered">
+    <thead>
+      <tr>
+        <th style='width:200px'>Product Name</th>
+        <th style='width:350px'>Description</th>
+        <th style='width:40px; text-align: right'>Qty</th>
+        <th style='width:70px; text-align: right'>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @items.each_with_index do |p, i| %>
+    
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.description %></td>
+        <td><%= text_field_tag "#{p.id}", p.quantity, :class => 'input-qty' %></td>
+        <td style='text-align: right'><%= p.price %></td>
+        <td>
+          <%= link_to 'Delete', delete_item_path(p.id), :confirm => 'Are you sure?', :class => 'btn btn-info' %>
+          <%= hidden_field_tag "id_hidden_#{p.id}", p.id %>
+        </td>
+      </tr>
+    
+  <% end %>
+    </tbody>
+  </table>
+  <%= submit_tag 'Update', :class => 'btn btn-info',:onclick => "return update_shopping_cart()" %>
+  <%= link_to 'Back', root_path, :class => 'btn btn-info' %>
+<% end %>
